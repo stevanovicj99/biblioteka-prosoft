@@ -24,12 +24,8 @@ public class TableModelMember extends AbstractTableModel {//implements Runnable 
     private String parameter = "";
     SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
 
-    public TableModelMember() {
-        try {
-            members = Communication.getInstance().getAllMembers();
-        } catch (Exception ex) {
-            Logger.getLogger(TableModelMember.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public TableModelMember() throws Exception {
+        members = Communication.getInstance().getAllMembers();
     }
 
     @Override
@@ -86,38 +82,23 @@ public class TableModelMember extends AbstractTableModel {//implements Runnable 
         fireTableDataChanged();
     }
 
-    public void setParameter(String parameter) {
+    public void setParameter(String parameter) throws Exception {
         this.parameter = parameter;
         search();
     }
 
-//    @Override
-//    public void run() {
-//        try {
-//            while (!Thread.currentThread().isInterrupted()) {
-//                Thread.sleep(10000);
-//                refreshTable();
-//            }
-//        } catch (InterruptedException ex) {
-//            java.util.logging.Logger.getLogger(TableModelAuthor.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-    private void search() {
-        try {
-            members = Communication.getInstance().getAllMembers();
-            if (!parameter.equals("")) {
-                ArrayList<Member> newList = new ArrayList<>();
-                for (Member m : members) {
-                    if (m.toString().toLowerCase().contains(parameter.toLowerCase())) {
-                        newList.add(m);
-                    }
+    private void search() throws Exception {
+        members = Communication.getInstance().getAllMembers();
+        if (!parameter.equals("")) {
+            ArrayList<Member> newList = new ArrayList<>();
+            for (Member m : members) {
+                if (m.toString().toLowerCase().contains(parameter.toLowerCase())) {
+                    newList.add(m);
                 }
-                members = newList;
             }
-            fireTableDataChanged();
-        } catch (Exception ex) {
-            Logger.getLogger(TableModelMember.class.getName()).log(Level.SEVERE, null, ex);
+            members = newList;
         }
+        fireTableDataChanged();
     }
 
     public void refreshTable() {
@@ -128,5 +109,4 @@ public class TableModelMember extends AbstractTableModel {//implements Runnable 
             Logger.getLogger(TableModelMember.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

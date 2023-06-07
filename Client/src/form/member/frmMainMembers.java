@@ -212,7 +212,7 @@ public class frmMainMembers extends javax.swing.JDialog {
                 tmm.deleteMember(row);
                 JOptionPane.showMessageDialog(this, "Member has been deleted.");
             } catch (Exception ex) {
-                Logger.getLogger(frmMainMembers.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "It is not possible to delete the member!");
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -234,8 +234,12 @@ public class frmMainMembers extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNewMemberActionPerformed
 
     private void btnSearchMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchMemberActionPerformed
-        String param = txtSearchMember.getText().trim();
-        ((TableModelMember) tblMember.getModel()).setParameter(param);
+        try {
+            String param = txtSearchMember.getText().trim();
+            ((TableModelMember) tblMember.getModel()).setParameter(param);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Unable to search the table!");
+        }
 
     }//GEN-LAST:event_btnSearchMemberActionPerformed
 
@@ -277,7 +281,7 @@ public class frmMainMembers extends javax.swing.JDialog {
                 }
                 (new frmRental(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, member, administrator, null, null)).setVisible(true);
             } catch (Exception ex) {
-                Logger.getLogger(frmMainMembers.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Unable to make new rental!");
             }
         }
 
@@ -299,9 +303,13 @@ public class frmMainMembers extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void prepareView() {
-        tmm = new TableModelMember();
-        // tmr = new TableModelRentals();
-        tblMember.setModel(tmm);
+        try {
+            tmm = new TableModelMember();
+            // tmr = new TableModelRentals();
+            tblMember.setModel(tmm);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Unable to show members!");
+        }
 
     }
 }
