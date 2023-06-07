@@ -242,13 +242,20 @@ public class frmBook extends javax.swing.JDialog {
                 message += "Enter the year the book was published!\n";
             }
 
-            int quantity = Integer.parseInt(txtQuantity.getText().trim());
-            if (txtQuantity.getText().trim().equals("") || txtQuantity.getText().trim() == null || txtQuantity.getText().trim().matches("[a-zA-Z]+") || quantity < 0) {
+            if (txtQuantity.getText().trim().equals("") || txtQuantity.getText().trim() == null
+                    || txtQuantity.getText().trim().matches("[a-zA-Z]+")
+                    || Integer.parseInt(txtQuantity.getText().trim()) < 0) {
                 message += "Enter the quantity the book!\n";
             }
-            /*  if (cmbAuthor.getSelectedItem().equals("Choose author")) {
-                message += "Choose author of the book!\n";
-            }*/
+
+            List<Author> authors = new ArrayList<>();
+            for (AuthorBook ab : tmca.getAuthorsbooks()) {
+                authors.add(ab.getAuthor());
+            }
+
+            if (authors.isEmpty()) {
+                message += "Choose author(s) of the book!\n";
+            }
 
             if (!message.equals("")) {
                 JOptionPane.showMessageDialog(this, message);
@@ -258,10 +265,7 @@ public class frmBook extends javax.swing.JDialog {
                 book.setTitle(txtTitle.getText().trim());
                 book.setPublication(Integer.parseInt(txtPublication.getText().trim()));
                 book.setQuantity(Integer.parseInt(txtQuantity.getText().trim()));
-                List<Author> authors = new ArrayList<>();
-                for (AuthorBook ab : tmca.getAuthorsbooks()) {
-                    authors.add(ab.getAuthor());
-                }
+
                 book.setAuthors(authors);
                 book.setId(Communication.getInstance().addBook(book).getId());
 
@@ -271,13 +275,10 @@ public class frmBook extends javax.swing.JDialog {
                 txtTitle.setText("");
                 txtPublication.setText("");
                 txtQuantity.setText("");
-                // cmbAuthor.setSelectedItem("Choose author");
-
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Unable to save book!");
         }
-
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -289,12 +290,20 @@ public class frmBook extends javax.swing.JDialog {
             if (txtPublication.getText().trim().equals("") || txtPublication.getText().trim() == null || txtPublication.getText().trim().matches("[a-zA-Z]+")) {
                 message += "Enter the year the book was published!\n";
             }
-            if (txtQuantity.getText().trim().equals("") || txtQuantity.getText().trim() == null || txtQuantity.getText().trim().matches("[a-zA-Z]+")) {
+
+            if (txtQuantity.getText().trim().equals("") || txtQuantity.getText().trim() == null
+                    || txtQuantity.getText().trim().matches("[a-zA-Z]+")
+                    || Integer.parseInt(txtQuantity.getText().trim()) < 0) {
                 message += "Enter the quantity the book!\n";
             }
-            /*if (cmbAuthor.getSelectedItem().equals("Choose author")) {
-                message += "Choose author of the book!\n";
-            }*/
+            List<Author> authors = new ArrayList<>();
+            for (AuthorBook ab : tmca.getAuthorsbooks()) {
+                authors.add(ab.getAuthor());
+            }
+
+            if (authors.isEmpty()) {
+                message += "Choose author(s) of the book!\n";
+            }
 
             if (!message.equals("")) {
                 JOptionPane.showMessageDialog(this, message);
@@ -303,11 +312,7 @@ public class frmBook extends javax.swing.JDialog {
                 editedBook.setTitle(txtTitle.getText().trim());
                 editedBook.setPublication(Integer.parseInt(txtPublication.getText().trim()));
                 editedBook.setQuantity(Integer.parseInt(txtQuantity.getText().trim()));
-                // editedBook.setAuthor((Author) cmbAuthor.getSelectedItem());
-                List<Author> authors = new ArrayList<>();
-                for (AuthorBook ab : tmca.getAuthorsbooks()) {
-                    authors.add(ab.getAuthor());
-                }
+
                 editedBook.setAuthors(authors);
 
                 editedBook.setId(book.getId());
@@ -372,8 +377,9 @@ public class frmBook extends javax.swing.JDialog {
                     try {
                         tmca = new TableModelChosenAuthors();
                         tblAuthors.setModel(tmca);
+
                     } catch (Exception ex) {
-                        Logger.getLogger(frmBook.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
                     }
                 }
                 //cmbAuthor.setEnabled(true);
@@ -390,14 +396,14 @@ public class frmBook extends javax.swing.JDialog {
                     try {
                         tmca = new TableModelChosenAuthors(book);
                         tblAuthors.setModel(tmca);
+
                     } catch (Exception ex) {
-                        Logger.getLogger(frmBook.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
                     }
                 }
                 txtTitle.setText(book.getTitle() + "");
                 txtPublication.setText(book.getPublication() + "");
                 txtQuantity.setText(book.getQuantity() + "");
-                //  cmbAuthor.setSelectedItem(book.getAuthor());
                 break;
 
             case FORM_VIEW:
@@ -411,14 +417,15 @@ public class frmBook extends javax.swing.JDialog {
                  {
                     try {
                         tblAuthors.setModel(new TableModelChosenAuthors(book));
+
                     } catch (Exception ex) {
-                        Logger.getLogger(frmBook.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
                     }
                 }
                 txtTitle.setText(book.getTitle() + "");
                 txtPublication.setText(book.getPublication() + "");
                 txtQuantity.setText(book.getQuantity() + "");
-                
+
                 break;
 
         }
