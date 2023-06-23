@@ -13,6 +13,7 @@ import communication.ResponseStatus;
  * @author Jelena
  */
 import componentTable.TableModelAuthor;
+import domain.Administrator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +26,12 @@ public class frmMainAuthors extends javax.swing.JDialog {
      * Creates new form frmAutoriPrikaz
      */
     TableModelAuthor tma;
+    Administrator administrator;
 
-    public frmMainAuthors(java.awt.Frame parent, boolean modal) {
+    public frmMainAuthors(java.awt.Frame parent, boolean modal, Administrator administrator) {
         super(parent, modal);
         initComponents();
+        this.administrator=administrator;
         prepareView();
         setTitle("Authors");
     }
@@ -169,7 +172,7 @@ public class frmMainAuthors extends javax.swing.JDialog {
         if (row >= 0) {
             TableModelAuthor tma = (TableModelAuthor) tblAuthors.getModel();
             Author author = tma.getAuthorAt(row);
-            new frmAuthor(null, rootPaneCheckingEnabled, FormMode.FORM_VIEW, author, null).setVisible(true);
+            new frmAuthor(null, rootPaneCheckingEnabled, FormMode.FORM_VIEW, author, null, administrator).setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
@@ -213,12 +216,12 @@ public class frmMainAuthors extends javax.swing.JDialog {
         if (row >= 0) {
             TableModelAuthor tma = (TableModelAuthor) tblAuthors.getModel();
             Author author = tma.getAuthorAt(row);
-            new frmAuthor(null, rootPaneCheckingEnabled, FormMode.FORM_EDIT, author, tma).setVisible(true);
+            new frmAuthor(null, rootPaneCheckingEnabled, FormMode.FORM_EDIT, author, tma, administrator).setVisible(true);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnNewAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewAuthorActionPerformed
-        new frmAuthor(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, null, tma).setVisible(true);
+        new frmAuthor(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, null, tma, administrator).setVisible(true);
     }//GEN-LAST:event_btnNewAuthorActionPerformed
 
 

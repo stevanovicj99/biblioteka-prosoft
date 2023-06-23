@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Jelena/Desktop/prosoft/biblioteka%20konacno/Common/src/communication/Request.java</file>
+            <file>file:/C:/Users/Jelena/Desktop/prosoft/biblioteka%20konacno/Common/src/communication/Response.java</file>
+            <file>file:/C:/Users/Jelena/Desktop/prosoft/biblioteka%20konacno/Common/src/domain/Administrator.java</file>
+            <file>file:/C:/Users/Jelena/Desktop/prosoft/biblioteka%20konacno/Common/src/domain/AbstractDomainObject.java</file>
+            <file>file:/C:/Users/Jelena/Desktop/prosoft/biblioteka%20konacno/Common/src/communication/Operation.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -22,6 +22,7 @@ public class Member extends AbstractDomainObject implements Serializable {
     private String lastname;
     private Date birthdate;
     private MemberType memberType;
+    private Administrator administrator;
 
     public Member() {
     }
@@ -32,6 +33,15 @@ public class Member extends AbstractDomainObject implements Serializable {
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.memberType = memberType;
+    }
+
+    public Member(Long id, String firstname, String lastname, Date birthdate, MemberType memberType, Administrator administrator) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthdate = birthdate;
+        this.memberType = memberType;
+        this.administrator = administrator;
     }
 
     public Long getId() {
@@ -74,9 +84,17 @@ public class Member extends AbstractDomainObject implements Serializable {
         this.memberType = memberType;
     }
 
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
+    }
+
     @Override
     public String toString() {
-        return  firstname + " " + lastname;
+        return firstname + " " + lastname;
     }
 
     @Override
@@ -124,7 +142,8 @@ public class Member extends AbstractDomainObject implements Serializable {
 
     @Override
     public String join() {
-        return " join member_type mt on (mt.id = m.memberTypeID)";
+        return " join member_type mt on (mt.id = m.memberTypeID) "
+                + " join administrator adm on (m.administratorID = adm.id)";
     }
 
     @Override
@@ -133,8 +152,9 @@ public class Member extends AbstractDomainObject implements Serializable {
 
         while (rs.next()) {
             MemberType mt = new MemberType(rs.getLong("memberTypeID"), rs.getString("name"));
+            Administrator admin = new Administrator(rs.getLong("adm.id"), rs.getString("adm.firstname"), rs.getString("adm.lastname"), rs.getString("adm.username"), rs.getString("adm.password"));
 
-            Member m = new Member(rs.getLong("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getDate("birthdate"), mt);
+            Member m = new Member(rs.getLong("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getDate("birthdate"), mt, admin);
             list.add(m);
         }
         rs.close();
@@ -143,7 +163,7 @@ public class Member extends AbstractDomainObject implements Serializable {
 
     @Override
     public String columnsForInsert() {
-        return " (id, firstname, lastname, birthdate, memberTypeID) ";
+        return " (id, firstname, lastname, birthdate, memberTypeID, administratorID) ";
     }
 
     @Override
@@ -153,12 +173,12 @@ public class Member extends AbstractDomainObject implements Serializable {
 
     @Override
     public String valuesForInsert() {
-        return id + ", '" + firstname + "', '" + lastname + "', '" + new java.sql.Date(birthdate.getTime()) + "', " + memberType.getId() + " ";
+        return id + ", '" + firstname + "', '" + lastname + "', '" + new java.sql.Date(birthdate.getTime()) + "', " + memberType.getId() + ", " + administrator.getId();
     }
 
     @Override
     public String valuesForUpdate() {
-        return "firstname = '" + firstname + "', lastname = '" + lastname + "', birthdate = '" + new java.sql.Date(birthdate.getTime()) + "', memberTypeID = "  + memberType.getId() + " ";
+        return "firstname = '" + firstname + "', lastname = '" + lastname + "', birthdate = '" + new java.sql.Date(birthdate.getTime()) + "', memberTypeID = " + memberType.getId() + ", administratorID = " + administrator.getId();
     }
 
     @Override

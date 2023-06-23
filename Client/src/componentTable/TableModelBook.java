@@ -22,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModelBook extends AbstractTableModel {
 
-    private final String[] columnNames = new String[]{"ID", "Title", "Quantity", "Year of publication", "Authors"};
+    private final String[] columnNames = new String[]{"ID", "Title", "Quantity", "Year of publication", "Authors", "Administrator"};
     private List<Book> books;
     private String parameter = "";
 
@@ -48,39 +48,30 @@ public class TableModelBook extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
 
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        try {
-            Book book = books.get(rowIndex);
+        Book book = books.get(rowIndex);
 
-            List<AuthorBook> authorbooks = Communication.getInstance().getAllAuthorsByBook(book);
-            switch (columnIndex) {
-                case 0:
-                    return book.getId();
-                case 1:
-                    return book.getTitle();
-                case 2:
-                    return book.getQuantity();
-                case 3:
-                    return book.getPublication();
-                case 4:
-                    List<Author> authors = new ArrayList<>();
-                    for (AuthorBook ab : authorbooks) {
-                        authors.add(ab.getAuthor());
-                    }
-                    return authors.toString().replace("[", "").replace("]", "");
-
-                default:
-                    return "n/a";
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(TableModelBook.class.getName()).log(Level.SEVERE, null, ex);
+        switch (columnIndex) {
+            case 0:
+                return book.getId();
+            case 1:
+                return book.getTitle();
+            case 2:
+                return book.getQuantity();
+            case 3:
+                return book.getPublication();
+            case 4:
+                return book.getAuthors().toString().replace("[", "").replace("]", "");
+            case 5:
+                return book.getAdministrator();
+            default:
+                return "n/a";
         }
-        return null;
     }
 
     public Book getBookAt(int row) {
@@ -108,7 +99,6 @@ public class TableModelBook extends AbstractTableModel {
             ArrayList<Book> newList = new ArrayList<>();
             for (Book b : books) {
                 if (b.getTitle().toLowerCase().contains(parameter.toLowerCase())) {
-                    //|| b.getAuthors().toString().toLowerCase().contains(parameter.toLowerCase())) {
                     newList.add(b);
                 }
             }
@@ -130,22 +120,6 @@ public class TableModelBook extends AbstractTableModel {
         book.setQuantity(--quantity);
         fireTableDataChanged();
         return book;
-    }
-
-    public void rentAllBooks(List<Book> listBook) throws Exception {
-        for (Book book : listBook) {
-            int quantity = book.getQuantity();
-            book.setQuantity(quantity);
-            Communication.getInstance().editBook(book);
-        }
-    }
-
-    public void returnAllBooks(List<Book> listBook) throws Exception {
-        for (Book book : listBook) {
-            int quantity = book.getQuantity();
-            book.setQuantity(++quantity);
-            Communication.getInstance().editBook(book);
-        }
     }
 
     public String getMessage() {

@@ -9,6 +9,7 @@ import communication.Communication;
 import communication.Response;
 import communication.ResponseStatus;
 import componentTable.TableModelBook;
+import domain.Administrator;
 import domain.Author;
 import domain.Book;
 import java.util.logging.Level;
@@ -26,10 +27,11 @@ public class frmMainBook extends javax.swing.JDialog {
      * Creates new form frmKnjigaPrikaz
      */
     TableModelBook tmb;
-
-    public frmMainBook(java.awt.Frame parent, boolean modal) {
+    Administrator administrator;
+    public frmMainBook(java.awt.Frame parent, boolean modal, Administrator administrator) {
         super(parent, modal);
         initComponents();
+        this.administrator = administrator;
         prepareView();
         setTitle("Books");
     }
@@ -166,7 +168,7 @@ public class frmMainBook extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewBookActionPerformed
-        (new frmBook(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, null, tmb)).setVisible(true);
+        (new frmBook(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, null, tmb, administrator)).setVisible(true);
     }//GEN-LAST:event_btnNewBookActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -187,7 +189,7 @@ public class frmMainBook extends javax.swing.JDialog {
         if (row >= 0) {
             TableModelBook tmb = (TableModelBook) tblBook.getModel();
             Book book = tmb.getBookAt(row);
-            new frmBook(null, rootPaneCheckingEnabled, FormMode.FORM_EDIT, book, tmb).setVisible(true);
+            new frmBook(null, rootPaneCheckingEnabled, FormMode.FORM_EDIT, book, tmb, administrator).setVisible(true);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -223,7 +225,7 @@ public class frmMainBook extends javax.swing.JDialog {
         if (row >= 0) {
             tmb = (TableModelBook) tblBook.getModel();
             Book book = tmb.getBookAt(row);
-            new frmBook(null, rootPaneCheckingEnabled, FormMode.FORM_VIEW, book, null).setVisible(true);
+            new frmBook(null, rootPaneCheckingEnabled, FormMode.FORM_VIEW, book, null, administrator).setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 

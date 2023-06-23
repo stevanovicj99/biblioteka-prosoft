@@ -20,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 public class TableModelMember extends AbstractTableModel {//implements Runnable {
 
     private List<Member> members;
-    private final String[] columnNames = new String[]{"ID", "Firstname", "Lastname", "Birthdate", "Member type"};
+    private final String[] columnNames = new String[]{"ID", "Firstname", "Lastname", "Birthdate", "Member type", "Administrator"};
     private String parameter = "";
     SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
 
@@ -46,7 +46,7 @@ public class TableModelMember extends AbstractTableModel {//implements Runnable 
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -63,6 +63,8 @@ public class TableModelMember extends AbstractTableModel {//implements Runnable 
                 return format.format(member.getBirthdate());
             case 4:
                 return member.getMemberType().getName();
+            case 5:
+                return member.getAdministrator();
             default:
                 return "n/a";
         }

@@ -6,6 +6,7 @@ package form.member;
 
 import communication.Communication;
 import componentTable.TableModelMember;
+import domain.Administrator;
 import domain.Member;
 import domain.MemberType;
 import domain.Rental;
@@ -33,13 +34,15 @@ public class frmMember extends javax.swing.JDialog {
     FormMode formMode;
     Member member;
     TableModelMember tmm;
+    Administrator administrator;
 
-    public frmMember(java.awt.Frame parent, boolean modal, FormMode formMode, Member member, TableModelMember tmm) {
+    public frmMember(java.awt.Frame parent, boolean modal, FormMode formMode, Member member, TableModelMember tmm, Administrator administrator) {
         super(parent, modal);
         initComponents();
         this.formMode = formMode;
         this.member = member;
         this.tmm = tmm;
+        this.administrator = administrator;
         fillCmbMemberType();
         setupComponents();
         setTitle("Member");
@@ -65,6 +68,8 @@ public class frmMember extends javax.swing.JDialog {
         txtBirthdate = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        txtAdministrator = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -94,36 +99,47 @@ public class frmMember extends javax.swing.JDialog {
             }
         });
 
+        jLabel11.setText("Administrator:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addGap(49, 49, 49))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel7))
-                        .addGap(29, 29, 29)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtFirstname, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                        .addComponent(txtLastname))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtBirthdate, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cmbMemberType, javax.swing.GroupLayout.Alignment.LEADING, 0, 279, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel9))
+                                    .addGap(49, 49, 49))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jLabel7))
+                                    .addGap(29, 29, 29)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(28, 28, 28)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAdministrator)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtFirstname, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                                        .addComponent(txtLastname))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtBirthdate, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cmbMemberType, javax.swing.GroupLayout.Alignment.LEADING, 0, 279, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -146,10 +162,14 @@ public class frmMember extends javax.swing.JDialog {
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbMemberType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtAdministrator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,8 +185,8 @@ public class frmMember extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -199,7 +219,7 @@ public class frmMember extends javax.swing.JDialog {
                 member.setLastname(txtLastname.getText().trim());
                 member.setBirthdate(format.parse(date));
                 member.setMemberType((MemberType) cmbMemberType.getSelectedItem());
-
+                member.setAdministrator(administrator);
                 member.setId(Communication.getInstance().addMember(member).getId());
                 tmm.addMember(member);
                 JOptionPane.showMessageDialog(this, "Member saved successfully!");
@@ -209,7 +229,7 @@ public class frmMember extends javax.swing.JDialog {
                 txtBirthdate.setText("");
                 cmbMemberType.setSelectedItem("Choose member type");
             } catch (Exception ex) {
-                Logger.getLogger(frmMember.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Unable to save member!");
             }
         }
 
@@ -241,7 +261,9 @@ public class frmMember extends javax.swing.JDialog {
                 editedMember.setLastname(txtLastname.getText().trim());
                 editedMember.setBirthdate(birthdate);
                 editedMember.setMemberType((MemberType) cmbMemberType.getSelectedItem());
+                editedMember.setAdministrator(administrator);
                 editedMember.setId(member.getId());
+                
                 Communication.getInstance().editMember(editedMember);
                 tmm.refreshTable();
                 JOptionPane.showMessageDialog(this, "Member saved successfully!");
@@ -249,9 +271,9 @@ public class frmMember extends javax.swing.JDialog {
                 this.dispose();
 
             } catch (ParseException ex) {
-                Logger.getLogger(frmMember.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Unable to save member!");
             } catch (Exception ex) {
-                Logger.getLogger(frmMember.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Unable to save member!");
             }
         }
 
@@ -262,10 +284,12 @@ public class frmMember extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cmbMemberType;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtAdministrator;
     private javax.swing.JTextField txtBirthdate;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtLastname;
@@ -280,7 +304,7 @@ public class frmMember extends javax.swing.JDialog {
                 cmbMemberType.addItem(memberType);
             }
         } catch (Exception ex) {
-            Logger.getLogger(frmMember.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Unable to fill member types!");
         }
     }
 
@@ -293,6 +317,8 @@ public class frmMember extends javax.swing.JDialog {
                 txtFirstname.setEnabled(true);
                 txtLastname.setEnabled(true);
                 txtBirthdate.setEnabled(true);
+                txtAdministrator.setEnabled(false);
+                txtAdministrator.setText(administrator + "");
                 cmbMemberType.setEnabled(true);
                 cmbMemberType.setSelectedItem("Choose member type");
                 break;
@@ -303,10 +329,12 @@ public class frmMember extends javax.swing.JDialog {
                 txtLastname.setEnabled(true);
                 txtBirthdate.setEnabled(true);
                 cmbMemberType.setEnabled(true);
+                txtAdministrator.setEnabled(false);
                 cmbMemberType.setSelectedItem("Choose member type");
                 txtFirstname.setText(member.getFirstname());
                 txtLastname.setText(member.getLastname());
                 txtBirthdate.setText(format.format(member.getBirthdate()));
+                txtAdministrator.setText(member.getAdministrator() + "");
                 cmbMemberType.setSelectedItem(member.getMemberType());
                 break;
             case FORM_VIEW:
@@ -315,12 +343,14 @@ public class frmMember extends javax.swing.JDialog {
                 txtFirstname.setEditable(false);
                 txtLastname.setEditable(false);
                 txtBirthdate.setEditable(false);
+                txtAdministrator.setEnabled(false);
                 cmbMemberType.setEnabled(false);
                 cmbMemberType.setSelectedItem("Choose member type");
                 txtFirstname.setText(member.getFirstname() + "");
                 txtLastname.setText(member.getLastname() + "");
                 txtBirthdate.setText(member.getBirthdate() + "");
                 cmbMemberType.setSelectedItem(member.getMemberType());
+                txtAdministrator.setText(member.getAdministrator() + "");
                 break;
         }
     }

@@ -75,11 +75,6 @@ public class Communication {
         return (List<Author>) sendRequest(request);
     }
 
-    public List<AuthorBook> getAllAuthorsByBook(Book book) throws Exception {
-        Request request = new Request(Operation.GET_ALL_AUTHORS_BY_BOOK, book);
-        return (List<AuthorBook>) sendRequest(request);
-    }
-
     public List<Member> getAllMembers() throws Exception {
         Request request = new Request(Operation.GET_ALL_MEMBERS, null);
         return (List<Member>) sendRequest(request);
@@ -100,10 +95,6 @@ public class Communication {
         return (List<Rental>) sendRequest(request);
     }
 
-    public List<RentalItem> getAllRentalItems(Rental rental) throws Exception {
-        Request request = new Request(Operation.GET_ALL_RENTAL_ITEMS, rental);
-        return (List<RentalItem>) sendRequest(request);
-    }
 
     public Author addAuthor(Author author) throws Exception {
         Request request = new Request(Operation.ADD_AUTHOR, author);
@@ -125,14 +116,13 @@ public class Communication {
         return (Rental) sendRequest(request);
     }
 
-    public RentalItem addRentalItem(RentalItem rentalItem) throws Exception {
-        Request request = new Request(Operation.ADD_RENTAL_ITEM, rentalItem);
-        return (RentalItem) sendRequest(request);
-    }
-
     public Response deleteMember(Member member) throws Exception {
+
         Request request = new Request(Operation.DELETE_MEMBER, member);
-        return (Response) sendRequest(request);
+        sender.send(request);
+        Response response = (Response) receiver.receive();
+
+        return response;
     }
 
     public Response deleteBook(Book book) throws Exception {

@@ -153,13 +153,13 @@ public class frmChooseAuthor extends javax.swing.JDialog {
         if (row >= 0) {
             tma = (TableModelAuthor) tblAuthors.getModel();
             Author author = tma.getAuthorAt(row);
-            List<Author> authors = new ArrayList<>();
+//            List<Author> authors = new ArrayList<>();
+//
+//            for (AuthorBook ab : tmca.getAuthorsbooks()) {
+//                authors.add(ab.getAuthor());
+//            }
 
-            for (AuthorBook ab : tmca.getAuthorsbooks()) {
-                authors.add(ab.getAuthor());
-            }
-
-            if (authors.contains(author)) {
+            if (tmca.getAuthors().contains(author)) {
                 JOptionPane.showMessageDialog(this, "The author has already been chosen!");
                 return;
             } else {

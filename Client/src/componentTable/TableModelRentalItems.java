@@ -4,6 +4,7 @@
  */
 package componentTable;
 
+import domain.RentalItemComparator;
 import communication.Communication;
 import domain.Author;
 import domain.AuthorBook;
@@ -11,6 +12,7 @@ import domain.Book;
 import domain.Rental;
 import domain.RentalItem;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,21 +26,16 @@ import javax.swing.table.AbstractTableModel;
 public class TableModelRentalItems extends AbstractTableModel {
 
     private ArrayList<RentalItem> list;
-    private String[] columnNames = {"Order number", "Title", "Year of publication", "Author"};
+    private String[] columnNames = {"Order number", "Title", "Year of publication", "Author", "Administrator"};
     private int on = 0;
     private String message = "";
-    private ArrayList<RentalItem> specificList;
 
     public TableModelRentalItems() {
         list = new ArrayList<>();
     }
 
     public TableModelRentalItems(Rental rental) {
-        try {
-            list = (ArrayList<RentalItem>) Communication.getInstance().getAllRentalItems(rental);
-        } catch (Exception ex) {
-            Logger.getLogger(TableModelRentalItems.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        list = rental.getRentalItems();
     }
 
     @Override
@@ -58,10 +55,8 @@ public class TableModelRentalItems extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        try {
             RentalItem ri = list.get(rowIndex);
-            List<AuthorBook> authorbooks = Communication.getInstance().getAllAuthorsByBook(ri.getBook());
-            
+
             switch (columnIndex) {
                 case 0:
                     return ri.getOrderNumber();
@@ -70,18 +65,12 @@ public class TableModelRentalItems extends AbstractTableModel {
                 case 2:
                     return ri.getBook().getPublication();
                 case 3:
-                    List<Author> authors = new ArrayList<>();
-                    for (AuthorBook ab : authorbooks) {
-                        authors.add(ab.getAuthor());
-                    }
-                    return authors.toString().replace("[", "").replace("]", "");
+                    return ri.getBook().getAuthors().toString().replace("[", "").replace("]", "");
+                case 4:
+                    return ri.getBook().getAdministrator();
                 default:
                     return "n/a";
             }
-        } catch (Exception ex) {
-            Logger.getLogger(TableModelRentalItems.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 
     public void addRentalItem(RentalItem ri) throws Exception {
@@ -128,4 +117,7 @@ public class TableModelRentalItems extends AbstractTableModel {
         return message;
     }
 
+    public void sort(ArrayList<RentalItem> rentItems) {
+        Collections.sort(rentItems, new RentalItemComparator());
+    }
 }

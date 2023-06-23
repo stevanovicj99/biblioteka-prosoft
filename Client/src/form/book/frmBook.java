@@ -9,6 +9,7 @@ import communication.Response;
 import componentTable.TableModelAuthor;
 import componentTable.TableModelBook;
 import componentTable.TableModelChosenAuthors;
+import domain.Administrator;
 import domain.Author;
 import domain.AuthorBook;
 import domain.Book;
@@ -34,15 +35,15 @@ public class frmBook extends javax.swing.JDialog {
     TableModelBook tmb;
     TableModelChosenAuthors tmca;
     TableModelAuthor tma;
+    Administrator administrator;
 
-    public frmBook(java.awt.Frame parent, boolean modal, FormMode formMode, Book book, TableModelBook tmb) {
+    public frmBook(java.awt.Frame parent, boolean modal, FormMode formMode, Book book, TableModelBook tmb, Administrator administrator) {
         super(parent, modal);
         initComponents();
         this.formMode = formMode;
         this.book = book;
         this.tmb = tmb;
-        //fillCmbAuthors();
-        //prepareForm();
+        this.administrator = administrator;
         setupComponents();
         setTitle("Book");
     }
@@ -71,6 +72,8 @@ public class frmBook extends javax.swing.JDialog {
         tblAuthors = new javax.swing.JTable();
         btnRemove = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtAdministrator = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -152,6 +155,8 @@ public class frmBook extends javax.swing.JDialog {
             }
         });
 
+        jLabel6.setText("Administrator:");
+
         javax.swing.GroupLayout panelKnjigaLayout = new javax.swing.GroupLayout(panelKnjiga);
         panelKnjiga.setLayout(panelKnjigaLayout);
         panelKnjigaLayout.setHorizontalGroup(
@@ -161,12 +166,16 @@ public class frmBook extends javax.swing.JDialog {
                 .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelKnjigaLayout.createSequentialGroup()
-                        .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelKnjigaLayout.createSequentialGroup()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelKnjigaLayout.createSequentialGroup()
+                        .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelKnjigaLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(71, 71, 71)
                                 .addComponent(btnChooseAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelKnjigaLayout.createSequentialGroup()
+                            .addGroup(panelKnjigaLayout.createSequentialGroup()
                                 .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
@@ -176,18 +185,18 @@ public class frmBook extends javax.swing.JDialog {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtPublication)
                                         .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 22, Short.MAX_VALUE))
-                    .addGroup(panelKnjigaLayout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelKnjigaLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtAdministrator, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 22, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelKnjigaLayout.setVerticalGroup(
             panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelKnjigaLayout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -199,11 +208,15 @@ public class frmBook extends javax.swing.JDialog {
                 .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtAdministrator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnChooseAuthors)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addGroup(panelKnjigaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -248,12 +261,7 @@ public class frmBook extends javax.swing.JDialog {
                 message += "Enter the quantity the book!\n";
             }
 
-            List<Author> authors = new ArrayList<>();
-            for (AuthorBook ab : tmca.getAuthorsbooks()) {
-                authors.add(ab.getAuthor());
-            }
-
-            if (authors.isEmpty()) {
+            if (tmca.getAuthors().isEmpty()) {
                 message += "Choose author(s) of the book!\n";
             }
 
@@ -265,8 +273,8 @@ public class frmBook extends javax.swing.JDialog {
                 book.setTitle(txtTitle.getText().trim());
                 book.setPublication(Integer.parseInt(txtPublication.getText().trim()));
                 book.setQuantity(Integer.parseInt(txtQuantity.getText().trim()));
-
-                book.setAuthors(authors);
+                book.setAdministrator(administrator);
+                book.setAuthors(tmca.getAuthors());
                 book.setId(Communication.getInstance().addBook(book).getId());
 
                 tmb.addBook(book);
@@ -296,12 +304,8 @@ public class frmBook extends javax.swing.JDialog {
                     || Integer.parseInt(txtQuantity.getText().trim()) < 0) {
                 message += "Enter the quantity the book!\n";
             }
-            List<Author> authors = new ArrayList<>();
-            for (AuthorBook ab : tmca.getAuthorsbooks()) {
-                authors.add(ab.getAuthor());
-            }
 
-            if (authors.isEmpty()) {
+            if (tmca.getAuthors().isEmpty()) {
                 message += "Choose author(s) of the book!\n";
             }
 
@@ -312,8 +316,8 @@ public class frmBook extends javax.swing.JDialog {
                 editedBook.setTitle(txtTitle.getText().trim());
                 editedBook.setPublication(Integer.parseInt(txtPublication.getText().trim()));
                 editedBook.setQuantity(Integer.parseInt(txtQuantity.getText().trim()));
-
-                editedBook.setAuthors(authors);
+                editedBook.setAdministrator(administrator);
+                editedBook.setAuthors(tmca.getAuthors());
 
                 editedBook.setId(book.getId());
                 Communication.getInstance().editBook(editedBook);
@@ -356,10 +360,12 @@ public class frmBook extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelKnjiga;
     private javax.swing.JTable tblAuthors;
+    private javax.swing.JTextField txtAdministrator;
     private javax.swing.JTextField txtPublication;
     private javax.swing.JTextField txtQuantity;
     private javax.swing.JTextField txtTitle;
@@ -373,17 +379,15 @@ public class frmBook extends javax.swing.JDialog {
                 txtTitle.setEnabled(true);
                 txtPublication.setEnabled(true);
                 txtQuantity.setEnabled(true);
-                 {
-                    try {
-                        tmca = new TableModelChosenAuthors();
-                        tblAuthors.setModel(tmca);
+                txtAdministrator.setEnabled(false);
+                txtAdministrator.setText(administrator + "");
+                try {
+                    tmca = new TableModelChosenAuthors();
+                    tblAuthors.setModel(tmca);
 
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
-                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
                 }
-                //cmbAuthor.setEnabled(true);
-                //cmbAuthor.setSelectedItem("Choose author");
                 break;
 
             case FORM_EDIT:
@@ -392,18 +396,18 @@ public class frmBook extends javax.swing.JDialog {
                 txtTitle.setEnabled(true);
                 txtPublication.setEnabled(true);
                 txtQuantity.setEnabled(true);
-                 {
-                    try {
-                        tmca = new TableModelChosenAuthors(book);
-                        tblAuthors.setModel(tmca);
+                txtAdministrator.setEnabled(false);
+                try {
+                    tmca = new TableModelChosenAuthors(book);
+                    tblAuthors.setModel(tmca);
 
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
-                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
                 }
                 txtTitle.setText(book.getTitle() + "");
                 txtPublication.setText(book.getPublication() + "");
                 txtQuantity.setText(book.getQuantity() + "");
+                txtAdministrator.setText(book.getAdministrator() + "");
                 break;
 
             case FORM_VIEW:
@@ -414,41 +418,21 @@ public class frmBook extends javax.swing.JDialog {
                 txtTitle.setEditable(false);
                 txtPublication.setEditable(false);
                 txtQuantity.setEditable(false);
-                 {
-                    try {
-                        tblAuthors.setModel(new TableModelChosenAuthors(book));
+                txtAdministrator.setEnabled(false);
+                try {
+                    tblAuthors.setModel(new TableModelChosenAuthors(book));
 
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
-                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "It is not possible to show authors!");
                 }
                 txtTitle.setText(book.getTitle() + "");
                 txtPublication.setText(book.getPublication() + "");
                 txtQuantity.setText(book.getQuantity() + "");
+                txtAdministrator.setText(book.getAdministrator() + "");
 
                 break;
 
         }
     }
 
-    /*private void fillCmbAuthors() {
-        try {
-            cmbAuthor.removeAllItems();
-            cmbAuthor.addItem("Choose author");
-            List<Author> authors = Communication.getInstance().getAllAuthors();
-            for (Author author : authors) {
-                cmbAuthor.addItem(author);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Unable to fill authors!");
-        }
-    }*/
-    private void prepareForm() {
-//        try {
-//            tmca = new TableModelChosenAuthors();
-//            tblAuthors.setModel(tmca);
-//        } catch (Exception ex) {
-//            Logger.getLogger(frmBook.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }
 }

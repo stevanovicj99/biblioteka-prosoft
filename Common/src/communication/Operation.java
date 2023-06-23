@@ -17,7 +17,6 @@ public enum Operation implements Serializable {
     GET_ALL_MEMBER_TYPE,
     
     GET_ALL_AUTHOR,
-    GET_ALL_AUTHORS_BY_BOOK,
     ADD_AUTHOR,
     DELETE_AUTHOR,
     EDIT_AUTHOR,
@@ -36,8 +35,4 @@ public enum Operation implements Serializable {
     ADD_RENTAL,
     GET_ALL_RENTALS_BY_MEMBER,
     EDIT_RENTAL,
-    
-    GET_ALL_RENTAL_ITEMS,
-    ADD_RENTAL_ITEM,
-
 }

@@ -14,11 +14,12 @@ import java.util.Objects;
  *
  * @author Jelena
  */
-public class Author extends AbstractDomainObject implements Serializable{
-    
+public class Author extends AbstractDomainObject implements Serializable {
+
     private Long id;
     private String firstname;
     private String lastname;
+    private Administrator administrator;
 
     public Author() {
     }
@@ -27,6 +28,13 @@ public class Author extends AbstractDomainObject implements Serializable{
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+    }
+
+    public Author(Long id, String firstname, String lastname, Administrator administrator) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.administrator = administrator;
     }
 
     public Long getId() {
@@ -51,6 +59,14 @@ public class Author extends AbstractDomainObject implements Serializable{
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
     }
 
     @Override
@@ -84,8 +100,8 @@ public class Author extends AbstractDomainObject implements Serializable{
     public String toString() {
         return firstname + " " + lastname;
     }
-    
-   @Override
+
+    @Override
     public String getTableName() {
         return " author ";
     }
@@ -97,7 +113,7 @@ public class Author extends AbstractDomainObject implements Serializable{
 
     @Override
     public String join() {
-        return "";
+        return " join administrator adm on (aut.administratorID = adm.id)";
     }
 
     @Override
@@ -105,7 +121,8 @@ public class Author extends AbstractDomainObject implements Serializable{
         ArrayList<AbstractDomainObject> lista = new ArrayList<>();
 
         while (rs.next()) {
-            Author a = new Author(rs.getLong("id"), rs.getString("firstname"), rs.getString("lastname"));
+            Administrator admin = new Administrator(rs.getLong("adm.id"), rs.getString("adm.firstname"), rs.getString("adm.lastname"), rs.getString("adm.username"), rs.getString("adm.password"));
+            Author a = new Author(rs.getLong("aut.id"), rs.getString("aut.firstname"), rs.getString("aut.lastname"), admin);
             lista.add(a);
         }
         rs.close();
@@ -114,7 +131,7 @@ public class Author extends AbstractDomainObject implements Serializable{
 
     @Override
     public String columnsForInsert() {
-        return "(firstname, lastname)";
+        return "(firstname, lastname, administratorID)";
     }
 
     @Override
@@ -124,17 +141,17 @@ public class Author extends AbstractDomainObject implements Serializable{
 
     @Override
     public String valuesForInsert() {
-        return "'" + firstname + "', '" + lastname + "'";
+        return "'" + firstname + "', '" + lastname + "', " + administrator.getId();
     }
 
     @Override
     public String valuesForUpdate() {
-        return "firstname = '" + firstname + "', lastname = '" + lastname + "' ";
+        return "firstname = '" + firstname + "', lastname = '" + lastname + "', administratorID = " + administrator.getId();
     }
 
     @Override
     public String query() {
         return "";
     }
-    
+
 }

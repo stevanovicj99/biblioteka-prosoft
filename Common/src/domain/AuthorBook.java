@@ -94,7 +94,8 @@ public class AuthorBook extends AbstractDomainObject implements Serializable {
 
         while (rs.next()) {
             Author a = new Author(rs.getLong("aut.id"), rs.getString("aut.firstname"), rs.getString("aut.lastname"));
-            Book b = new Book(rs.getLong("b.id"), rs.getString("b.title"), rs.getInt("b.quantity"), rs.getInt("b.publication"), null);
+
+            Book b = new Book(rs.getLong("b.id"), rs.getString("b.title"), rs.getInt("b.quantity"), rs.getInt("b.publication"));
 
             AuthorBook ab = new AuthorBook(a, b);
 
@@ -111,7 +112,7 @@ public class AuthorBook extends AbstractDomainObject implements Serializable {
 
     @Override
     public String valuesForPrimaryKey() {
-        return " authorID = " + author.getId()+" AND bookID = "+book.getId();
+        return " authorID = " + author.getId() + " AND bookID = " + book.getId();
     }
 
     @Override

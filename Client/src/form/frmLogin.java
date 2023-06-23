@@ -136,21 +136,14 @@ public class frmLogin extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, responseMessage);
                     (new frmMain(admin)).setVisible(true);
                     this.dispose();
-                } else if (responseStatus == ResponseStatus.Error) {
+                } else if (responseStatus == ResponseStatus.Error && !responseMessage.isEmpty()) {
                     JOptionPane.showMessageDialog(this, responseMessage);
+                } else if(responseStatus == ResponseStatus.Error && responseMessage.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Unable to find administrator!");
                 }
-
-                /*JOptionPane.showMessageDialog(this, "Login successful, welcome " + admin.getFirstname() + "!");
-                (new frmMain(admin)).setVisible(true);
-                this.dispose();
-                if (response.getResponseStatus().equals(ResponseStatus.Error)) {
-                    JOptionPane.showMessageDialog(this, "Failed login, the administrator is already logged in!");
-                } else {
-                   
-                }*/
             }
         } catch (Exception ex) {
-            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Unable to find administrator!");
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

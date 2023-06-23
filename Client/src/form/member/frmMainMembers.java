@@ -5,6 +5,8 @@
 package form.member;
 
 import communication.Communication;
+import communication.Response;
+import communication.ResponseStatus;
 import componentTable.TableModelMember;
 import componentTable.TableModelRentalItems;
 import componentTable.TableModelRentals;
@@ -195,7 +197,7 @@ public class frmMainMembers extends javax.swing.JDialog {
         if (row >= 0) {
             TableModelMember tmm = (TableModelMember) tblMember.getModel();
             Member member = tmm.getMemberAt(row);
-            new frmMember(null, rootPaneCheckingEnabled, FormMode.FORM_EDIT, member, tmm).setVisible(true);
+            new frmMember(null, rootPaneCheckingEnabled, FormMode.FORM_EDIT, member, tmm, administrator).setVisible(true);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -208,9 +210,13 @@ public class frmMainMembers extends javax.swing.JDialog {
             try {
                 TableModelMember tmm = (TableModelMember) tblMember.getModel();
                 Member member = tmm.getMemberAt(row);
-                Communication.getInstance().deleteMember(member);
-                tmm.deleteMember(row);
-                JOptionPane.showMessageDialog(this, "Member has been deleted.");
+                Response response = Communication.getInstance().deleteMember(member);
+                if (response.getResponseStatus().equals(ResponseStatus.Error)) {
+                    JOptionPane.showMessageDialog(this, "It is not possible to delete the member");
+                } else {
+                    tmm.deleteMember(row);
+                    JOptionPane.showMessageDialog(this, "Member has been deleted.");
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "It is not possible to delete the member!");
             }
@@ -225,12 +231,12 @@ public class frmMainMembers extends javax.swing.JDialog {
         if (row >= 0) {
             TableModelMember tmm = (TableModelMember) tblMember.getModel();
             Member member = tmm.getMemberAt(row);
-            new frmMember(null, rootPaneCheckingEnabled, FormMode.FORM_VIEW, member, null).setVisible(true);
+            new frmMember(null, rootPaneCheckingEnabled, FormMode.FORM_VIEW, member, null, administrator).setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
 
     private void btnNewMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewMemberActionPerformed
-        (new frmMember(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, null, tmm)).setVisible(true);
+        (new frmMember(null, rootPaneCheckingEnabled, FormMode.FORM_ADD, null, tmm, administrator)).setVisible(true);
     }//GEN-LAST:event_btnNewMemberActionPerformed
 
     private void btnSearchMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchMemberActionPerformed

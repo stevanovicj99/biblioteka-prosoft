@@ -7,6 +7,7 @@ package form.author;
 import domain.Author;
 import communication.Communication;
 import componentTable.TableModelAuthor;
+import domain.Administrator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -25,13 +26,15 @@ public class frmAuthor extends javax.swing.JDialog {
     FormMode formMode;
     Author author;
     TableModelAuthor tma;
+    Administrator administrator;
 
-    public frmAuthor(java.awt.Frame parent, boolean modal, FormMode formMode, Author author, TableModelAuthor tma) { //, FormMode formMode
+    public frmAuthor(java.awt.Frame parent, boolean modal, FormMode formMode, Author author, TableModelAuthor tma, Administrator administrator) { //, FormMode formMode
         super(parent, modal);
         initComponents();
         this.formMode = formMode;
         this.author = author;
         this.tma = tma;
+        this.administrator = administrator;
         setupComponents();
         setTitle("Author");
     }
@@ -52,6 +55,8 @@ public class frmAuthor extends javax.swing.JDialog {
         txtLastname = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtAdministrator = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -77,26 +82,34 @@ public class frmAuthor extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setText("Administrator:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtAdministrator))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(21, 21, 21)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFirstname, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                            .addComponent(txtLastname))))
-                .addContainerGap(11, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,14 +119,18 @@ public class frmAuthor extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(txtFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
-                    .addComponent(btnUpdate))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(txtAdministrator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnAdd))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,6 +169,7 @@ public class frmAuthor extends javax.swing.JDialog {
                 author = new Author();
                 author.setFirstname(txtFirstname.getText().trim());
                 author.setLastname(txtLastname.getText().trim());
+                author.setAdministrator(administrator);
                 author.setId(Communication.getInstance().addAuthor(author).getId());
                 tma.addAuthor(author);
                 JOptionPane.showMessageDialog(this, "Author saved successfully!");
@@ -180,6 +198,7 @@ public class frmAuthor extends javax.swing.JDialog {
                 editedAuthor.setFirstname(txtFirstname.getText().trim());
                 editedAuthor.setLastname(txtLastname.getText().trim());
                 editedAuthor.setId(author.getId());
+                editedAuthor.setAdministrator(administrator);
                 Communication.getInstance().editAuthor(editedAuthor);
                 tma.refreshTable();
                 JOptionPane.showMessageDialog(this, "Author saved successfully!");
@@ -199,7 +218,9 @@ public class frmAuthor extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txtAdministrator;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtLastname;
     // End of variables declaration//GEN-END:variables
@@ -211,6 +232,8 @@ public class frmAuthor extends javax.swing.JDialog {
                 btnUpdate.setEnabled(false);
                 txtFirstname.setEnabled(true);
                 txtLastname.setEnabled(true);
+                txtAdministrator.setEnabled(false);
+                txtAdministrator.setText(administrator + "");
                 break;
             case FORM_EDIT:
                 btnAdd.setEnabled(false);
@@ -219,6 +242,8 @@ public class frmAuthor extends javax.swing.JDialog {
                 txtLastname.setEnabled(true);
                 txtFirstname.setText(author.getFirstname());
                 txtLastname.setText(author.getLastname());
+                txtAdministrator.setEnabled(false);
+                txtAdministrator.setText(author.getAdministrator() + "");
                 break;
             case FORM_VIEW:
                 btnAdd.setEnabled(false);
@@ -227,6 +252,8 @@ public class frmAuthor extends javax.swing.JDialog {
                 txtLastname.setEnabled(false);
                 txtFirstname.setText(author.getFirstname());
                 txtLastname.setText(author.getLastname());
+                txtAdministrator.setEnabled(false);
+                txtAdministrator.setText(author.getAdministrator() + "");
                 break;
         }
     }

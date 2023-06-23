@@ -157,11 +157,10 @@ public class Controller {
         return gaab.getList();
     }
 
-    public ArrayList<Book> getAllBooks(Author author) throws Exception {
+    public ArrayList<Book> getAllBooks() throws Exception {
         GetAllBooks gab = new GetAllBooks();
 
         Book book = new Book();
-        ///book.setAuthor(author);
 
         gab.execute(book);
         return gab.getList();
@@ -192,15 +191,4 @@ public class Controller {
         gar.execute(rental);
         return gar.getList();
     }
-
-    public ArrayList<RentalItem> getAllRentalItems(Rental rental) throws Exception {
-        GetAllRentalItems gari = new GetAllRentalItems();
-
-        RentalItem ri = new RentalItem();
-        ri.setRental(rental);
-
-        gari.execute(ri);
-        return gari.getList();
-    }
-
 }

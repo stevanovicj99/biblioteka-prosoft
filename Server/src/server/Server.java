@@ -22,18 +22,10 @@ import thread.ProcessClientRequests;
 public class Server extends Thread {
 
     private ServerSocket serverSocket;
-//    List<ProcessClientRequests> activeClients;
-//
-//    ArrayList<Administrator> listOfPossibleAdministrators;
-//    ArrayList<Administrator> activeAdministrators;
-//    ArrayList<Socket> listOfAdministrators;
 
     public Server() throws IOException {
         try {
             serverSocket = new ServerSocket(9000);
-//            listOfPossibleAdministrators = Controller.getInstance().getAllAdministrators();
-//            activeAdministrators = new ArrayList<>();
-//            listOfAdministrators = new ArrayList<>();
         } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,7 +49,6 @@ public class Server extends Thread {
     private void handleClient(Socket socket) throws Exception {
         ServerController.getInstance().addAdministrator(socket);
         ProcessClientRequests processClientRequests = new ProcessClientRequests(socket);
-//        activeClients.add(processClientRequests);
         processClientRequests.start();
         
     }
@@ -66,63 +57,4 @@ public class Server extends Thread {
         return serverSocket;
     }
 
-    /*public List<Administrator> getActiveAdministrators() {
-        List<Administrator> administrators = new ArrayList<>();
-        for (ProcessClientRequests pcr : activeClients) {
-            administrators.add(pcr.getAdministrator());
-        }
-        return administrators;
-    }*/
- /*private void cancelClients() {
-           for (Socket s : listOfAdministrators) {
-            try {
-                s.close();
-                listOfAdministrators.remove(s);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    private void addAdministrator(Socket socket) {
-        listOfAdministrators.add(socket);
-    }
-
-    public ArrayList<Socket> getListOfAdministrators() {
-        return listOfAdministrators;
-    }
-
-    public void addActiveAdministrator(Administrator administrator) {
-        activeAdministrators.add(administrator);
-    }
-
-    public boolean isItActive(Administrator administrator) {
-        return activeAdministrators.contains(administrator);
-    }
-
-    public ArrayList<Administrator> getActiveAdministrators() {
-        return activeAdministrators;
-    }
-
-    public boolean isTheUsernameCorrect(Administrator administrator) throws Exception {
-        List<Administrator> list = Controller.getInstance().getAllAdministrators();
-
-        for (Administrator admin : list) {
-            if (admin.getUsername().equals(administrator.getUsername())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isThePasswordCorrect(Administrator administrator) throws Exception {
-        List<Administrator> list = Controller.getInstance().getAllAdministrators();
-
-        for (Administrator admin : list) {
-            if (admin.getPassword().equals(administrator.getPassword())) {
-                return true;
-            }
-        }
-        return false;
-    }*/
 }

@@ -4,8 +4,11 @@
  */
 package operation.rental;
 
+import controller.Controller;
 import domain.AbstractDomainObject;
+import domain.Book;
 import domain.Rental;
+import domain.RentalItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +31,18 @@ public class UpdateRental extends AbstractGenericOperation {
     @Override
     protected void executeOperation(AbstractDomainObject ado) throws Exception {
         DBRepository.getInstance().update(ado);
+        Rental rental = (Rental) ado;
+        ArrayList<RentalItem> rentalItems = rental.getRentalItems();
+        ArrayList<Book> books = new ArrayList<>();
+        for (RentalItem ri : rentalItems) {
+            books.add(ri.getBook());
+        }
+
+        for (Book book : books) {
+            int quantity = book.getQuantity();
+            book.setQuantity(++quantity);
+            Controller.getInstance().updateBook(book);
+        }
     }
 
 }

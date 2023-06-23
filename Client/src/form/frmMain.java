@@ -89,6 +89,9 @@ public class frmMain extends javax.swing.JFrame {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrator", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 20))); // NOI18N
@@ -264,23 +267,23 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemMembersActionPerformed
 
     private void menuItemAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAuthorsActionPerformed
-        (new frmMainAuthors(this, true)).setVisible(true);
+        (new frmMainAuthors(this, true, administrator)).setVisible(true);
     }//GEN-LAST:event_menuItemAuthorsActionPerformed
 
     private void menuItemNewAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemNewAuthorActionPerformed
-        (new frmAuthor(this, true, FormMode.FORM_ADD, null, tma)).setVisible(true);
+        (new frmAuthor(this, true, FormMode.FORM_ADD, null, tma, administrator)).setVisible(true);
     }//GEN-LAST:event_menuItemNewAuthorActionPerformed
 
     private void menuItemNewBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemNewBookActionPerformed
-        (new frmBook(this, true, FormMode.FORM_ADD, null, tmb)).setVisible(true);
+        (new frmBook(this, true, FormMode.FORM_ADD, null, tmb, administrator)).setVisible(true);
     }//GEN-LAST:event_menuItemNewBookActionPerformed
 
     private void menuItemBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemBooksActionPerformed
-        (new frmMainBook(this, true)).setVisible(true);
+        (new frmMainBook(this, true, administrator)).setVisible(true);
     }//GEN-LAST:event_menuItemBooksActionPerformed
 
     private void menuItemNewMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemNewMemberActionPerformed
-        (new frmMember(this, true, FormMode.FORM_ADD, null, tmm)).setVisible(true);
+        (new frmMember(this, true, FormMode.FORM_ADD, null, tmm, administrator)).setVisible(true);
     }//GEN-LAST:event_menuItemNewMemberActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
@@ -297,7 +300,7 @@ public class frmMain extends javax.swing.JFrame {
                 new frmLogin().setVisible(true);
                 this.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "It's not possible to log out!");
+                JOptionPane.showMessageDialog(this, "Unable to log out!");
             }
         }
     }//GEN-LAST:event_btnLogOutActionPerformed
@@ -309,6 +312,15 @@ public class frmMain extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            Response response = Communication.getInstance().logoff(administrator);
+            JOptionPane.showMessageDialog(this, response.getException());
+        } catch (Exception ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,7 +4,9 @@
  */
 package operation.rental;
 
+import controller.Controller;
 import domain.AbstractDomainObject;
+import domain.Book;
 import domain.Rental;
 import domain.RentalItem;
 import java.sql.PreparedStatement;
@@ -49,6 +51,16 @@ public class AddRental extends AbstractGenericOperation {
             rentalItem.setRental(rental);
             DBRepository.getInstance().insert(rentalItem);
         }
+        
+        ArrayList<Book> books = new ArrayList<>();
+        for (RentalItem ri : rental.getRentalItems()) {
+            books.add(ri.getBook());
+        }
+
+        for (Book book : books) {
+            Controller.getInstance().updateBook(book);
+        }
+        
     }
 
     public Rental getRental() {

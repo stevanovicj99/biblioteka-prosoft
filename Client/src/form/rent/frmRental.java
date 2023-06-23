@@ -383,8 +383,8 @@ public class frmRental extends javax.swing.JDialog {
             newRental.setDateOfRental(new Date());
             newRental.setRentalItems(tmri.getList());
 
-            tmb = (TableModelBook) tblBooks.getModel();
-            tmb.rentAllBooks(tmri.getAllBooks());
+//            tmb = (TableModelBook) tblBooks.getModel();
+//            tmb.rentAllBooks(tmri.getAllBooks());
 
             Communication.getInstance().addRental(newRental);
             JOptionPane.showMessageDialog(this, "Successfully saved rental");
@@ -406,9 +406,9 @@ public class frmRental extends javax.swing.JDialog {
             editedRental.setDateOfReturn(new Date());
             editedRental.setId(rental.getId());
 
-            tmri = (TableModelRentalItems) tblRentedBooks.getModel();
-            tmb = (TableModelBook) tblBooks.getModel();
-            tmb.returnAllBooks(tmri.getAllBooks());
+//            tmri = (TableModelRentalItems) tblRentedBooks.getModel();
+//            tmb = (TableModelBook) tblBooks.getModel();
+//            tmb.returnAllBooks(tmri.getAllBooks());
 
             Communication.getInstance().editRental(editedRental);
             tmr.refreshTable();
@@ -420,9 +420,6 @@ public class frmRental extends javax.swing.JDialog {
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-//        tmri = (TableModelRentalItems) tblRentedBooks.getModel();
-//        tmb = (TableModelBook) tblBooks.getModel();
-//        tmb.returnAllBooks(tmri.getAllBooks());
     }//GEN-LAST:event_formWindowClosed
 
 
@@ -494,10 +491,11 @@ public class frmRental extends javax.swing.JDialog {
                     txtDateOfRental.setText(format.format(rental.getDateOfRental()));
                     txtDateOfRental.setEditable(false);
                     txtDateOfReturn.setEditable(false);
-                    tblRentedBooks.setModel(new TableModelRentalItems(rental));
+                    tmri = new TableModelRentalItems(rental);
+                    tmri.sort(tmri.getList());
+                    tblRentedBooks.setModel(tmri);
                     txtSearchBook.setEditable(false);
                     btnSearch.setEnabled(false);
-                    tmri = new TableModelRentalItems(rental);
                     if (rental.getRentalStatus() == 0) {
                         lblStatus.setText("Active");
                         txtDateOfReturn.setText(null);

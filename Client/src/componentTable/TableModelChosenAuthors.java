@@ -1,4 +1,4 @@
-  /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -23,16 +23,17 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModelChosenAuthors extends AbstractTableModel {
 
-    private final String[] columnNames = new String[]{"ID", "Firstname", "Lastname"};
-    private List<AuthorBook> authorsbooks = new ArrayList<>();
+    private final String[] columnNames = new String[]{"ID", "Firstname", "Lastname", "Administrator"};
+    private List<Book> books = Communication.getInstance().getAllBooks();
+
     private List<Author> authors;
 
     public TableModelChosenAuthors() throws Exception {
-        authorsbooks = new ArrayList<>();
+        authors = new ArrayList<>();
     }
 
     public TableModelChosenAuthors(Book book) throws Exception {
-        authorsbooks = Communication.getInstance().getAllAuthorsByBook(book);
+        authors = book.getAuthors();
     }
 
     @Override
@@ -46,59 +47,65 @@ public class TableModelChosenAuthors extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        if (authorsbooks == null) {
+        if (authors == null) {
             return 0;
         }
-        return authorsbooks.size();
+        return authors.size();
     }
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        AuthorBook ab = authorsbooks.get(rowIndex);
+        Author a = authors.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return ab.getAuthor().getId();
+                return a.getId();
             case 1:
-                return ab.getAuthor().getFirstname();
+                return a.getFirstname();
             case 2:
-                return ab.getAuthor().getLastname();
+                return a.getLastname();
+            case 3:
+                return a.getAdministrator();
             default:
                 return "n/a";
         }
     }
 
     public Author getAuthorAt(int row) {
-        AuthorBook ab = authorsbooks.get(row);
-        return ab.getAuthor();
+        Author a = authors.get(row);
+        return a;
     }
 
     public void deleteAuthor(int row) {
-        authorsbooks.remove(row);
+        authors.remove(row);
         fireTableDataChanged();
     }
 
     public List<Author> getAuthors() {
-        for (AuthorBook ab : authorsbooks) {
-            authors.add(ab.getAuthor());
-        }
         return authors;
     }
-
-    public List<AuthorBook> getAuthorsbooks() {
-        return authorsbooks;
-    }
+    
+//     public List<Author> getNewAuthors() {
+//        return updatedAuthors;
+//    }
 
     public void addAuthor(Author author) {
-        AuthorBook ab = new AuthorBook(author, null);
-        authorsbooks.add(ab);
-        fireTableRowsInserted(authorsbooks.size() - 1, authorsbooks.size() - 1);
+//        Author a = new AuthorBook(author, null);
+        authors.add(author);
+        //updatedAuthors.add(author);
+        fireTableRowsInserted(authors.size() - 1, authors.size() - 1);
         //fireTableDataChanged();
     }
+
+//    public void addAuthorNewList(Author author) {
+//        Author a = new AuthorBook(author, null);
+//        updatedAuthors.add(author);
+//        fireTableDataChanged();
+//    }
 
 //    public void refreshTable() throws Exception {
 //        authors = Communication.getInstance().getAllAuthors();

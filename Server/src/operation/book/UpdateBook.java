@@ -51,6 +51,7 @@ public class UpdateBook extends AbstractGenericOperation {
 
         List<AuthorBook> listOfAuthors = Controller.getInstance().getAllAuthorsByBook(book); // nikolu
         List<Author> authors = new ArrayList<>();
+        //authors = book.getAuthors();
         for (AuthorBook authorBook : listOfAuthors) {
             authors.add(authorBook.getAuthor()); //prebacila nikolu u listu
         }
@@ -64,9 +65,9 @@ public class UpdateBook extends AbstractGenericOperation {
                 ab.setAuthor(author);
                 ab.setBook(book);
                 DBRepository.getInstance().insert(ab);
-            } 
+            }
         }
-        
+
         for (Author author : authors) {
             if (!book.getAuthors().contains(author)) {
                 ab.setAuthor(author);

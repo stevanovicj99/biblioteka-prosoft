@@ -56,8 +56,6 @@ public class ProcessClientRequests extends Thread {
                     switch (request.getOperation()) {
                         case LOGIN:
                             administrator = (Administrator) request.getArgument();
-                            // Administrator activeAdministrator = Controller.getInstance().login(administrator);
-                            //response.setResult(loggedIn);
                             if (ServerController.getInstance().isItActive(administrator) == false) {
                                 if (ServerController.getInstance().isTheUsernameCorrect(administrator)
                                         && ServerController.getInstance().isThePasswordCorrect(administrator)) {
@@ -81,10 +79,10 @@ public class ProcessClientRequests extends Thread {
                             administrator = (Administrator) request.getArgument();
 
                             if (ServerController.getInstance().removeSpecificAdministrator(administrator)) {
-                                response.setException("You have successfully logged out");
+                                response.setException("You have successfully logged out!");
                                 response.setResponseStatus(ResponseStatus.Success);
                             } else {
-                                response.setException("Unable to log out of the administrator!");
+                                response.setException("Unable to log out administrator!");
                                 response.setResponseStatus(ResponseStatus.Error);
                             }
                             break;
@@ -94,9 +92,6 @@ public class ProcessClientRequests extends Thread {
                             break;
                         case GET_ALL_AUTHOR:
                             response.setResult(Controller.getInstance().getAllAuthors());
-                            break;
-                        case GET_ALL_AUTHORS_BY_BOOK:
-                            response.setResult(Controller.getInstance().getAllAuthorsByBook((Book) request.getArgument()));
                             break;
                         case ADD_AUTHOR:
                             response.setResult(Controller.getInstance().addAuthor((Author) request.getArgument()));
@@ -108,7 +103,7 @@ public class ProcessClientRequests extends Thread {
                             Controller.getInstance().updateAuthor((Author) request.getArgument());
                             break;
                         case GET_ALL_BOOKS:
-                            response.setResult(Controller.getInstance().getAllBooks((Author) request.getArgument()));
+                            response.setResult(Controller.getInstance().getAllBooks());
                             break;
                         case ADD_BOOK:
                             response.setResult(Controller.getInstance().addBook((Book) request.getArgument()));
@@ -142,12 +137,6 @@ public class ProcessClientRequests extends Thread {
                             break;
                         case ADD_RENTAL:
                             response.setResult(Controller.getInstance().addRental((Rental) request.getArgument()));
-                            break;
-                        case GET_ALL_RENTAL_ITEMS:
-                            response.setResult(Controller.getInstance().getAllRentalItems((Rental) request.getArgument()));
-                            break;
-                        case ADD_RENTAL_ITEM:
-                            Controller.getInstance().addRentalItem((RentalItem) request.getArgument());
                             break;
 
                     }

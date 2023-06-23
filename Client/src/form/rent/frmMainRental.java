@@ -204,7 +204,7 @@ public class frmMainRental extends javax.swing.JDialog {
     private void prepareView() {
         try {
             tmr = new TableModelRentals();
-            tblRentals.setModel(new TableModelRentals());
+            tblRentals.setModel(tmr);
             cmbFilter.removeAllItems();
             cmbFilter.addItem("Rental status");
             cmbFilter.addItem("Active");

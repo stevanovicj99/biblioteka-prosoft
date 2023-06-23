@@ -22,17 +22,14 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TableModelAuthor extends AbstractTableModel {
 
-    private final String[] columnNames = new String[]{"ID", "Firstname", "Lastname"};
+    private final String[] columnNames = new String[]{"ID", "Firstname", "Lastname", "Administrator"};
     private List<Author> authors;
     private String parameter = "";
 
     public TableModelAuthor() throws Exception {
         authors = Communication.getInstance().getAllAuthors();
     }
-
-//    public TableModelAuthor(Book book) throws Exception {
-//        authors = Communication.getInstance().getAllAuthorsByBook(book);
-//    }
+    
     @Override
     public String getColumnName(int column) {
         if (column > columnNames.length) {
@@ -52,7 +49,7 @@ public class TableModelAuthor extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -65,6 +62,8 @@ public class TableModelAuthor extends AbstractTableModel {
                 return author.getFirstname();
             case 2:
                 return author.getLastname();
+            case 3:
+                return author.getAdministrator();
             default:
                 return "n/a";
         }

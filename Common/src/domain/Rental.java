@@ -152,22 +152,80 @@ public class Rental extends AbstractDomainObject implements Serializable {
     public String join() {
         return "join administrator adm on (adm.id = ren.administratorID) "
                 + "join member m on (m.id = ren.memberID) "
-                + "join member_type mt on (mt.id = m.memberTypeID) ";
+                + "join member_type mt on (mt.id = m.memberTypeID) "
+                + "join rental_item ri on (ren.id=ri.rentalID) "
+                + "join book b on (ri.bookID=b.id) "
+                + "join administrator admb on (b.administratorID=admb.id) "
+                + "join author_book ab on (b.id=ab.bookID) "
+                + "join author aut on (ab.authorID=aut.id) ";
     }
 
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
         ArrayList<AbstractDomainObject> list = new ArrayList<>();
-
+        ArrayList<Author> authors = new ArrayList<>();
+        ArrayList<RentalItem> rentalItems = new ArrayList<>();
+        Long currentBookID = 0L;
+        Long currentRentalID = 0L;
+        Book b = new Book();
+        RentalItem ri = new RentalItem();
+        Rental rental = new Rental();
         while (rs.next()) {
             Administrator admin = new Administrator(rs.getLong("adm.id"), rs.getString("adm.firstname"), rs.getString("adm.lastname"), rs.getString("adm.username"), rs.getString("adm.password"));
             MemberType mt = new MemberType(rs.getLong("mt.id"), rs.getString("mt.name"));
             Member mem = new Member(rs.getLong("m.id"), rs.getString("m.firstname"), rs.getString("m.lastname"), rs.getDate("m.birthdate"), mt);
+            Author a = new Author(rs.getLong("aut.id"), rs.getString("aut.firstname"), rs.getString("aut.lastname"));
 
-            Rental rental = new Rental(rs.getLong("ren.id"), admin, mem, rs.getInt("ren.rentalStatus"), rs.getTimestamp("ren.dateOfRental"), rs.getTimestamp("ren.dateOfReturn"), null);
+            if (currentBookID == rs.getLong("b.id") && currentRentalID == rs.getLong("ren.id")) {
+                authors.add(a);
+            } else if (currentRentalID == rs.getLong("ren.id")) {
+                if (currentBookID > 0L) {
+                    b.setAuthors(authors);
+                    ri.setBook(b);
+                    rentalItems.add(ri);
+                }
+                currentBookID = rs.getLong("b.id");
+                authors = new ArrayList<>();
+                authors.add(a);
+                Administrator adminB = new Administrator(rs.getLong("admb.id"), rs.getString("admb.firstname"), rs.getString("admb.lastname"), rs.getString("admb.username"), rs.getString("admb.password"));
+                b = new Book(currentBookID, rs.getString("b.title"), rs.getInt("b.quantity"), rs.getInt("b.publication"), adminB, authors);
+                ri = new RentalItem();
+                ri.setOrderNumber(rs.getInt("ri.orderNumber"));
+            } else {
+                if (currentBookID > 0L) {
+                    b.setAuthors(authors);
+                    ri.setBook(b);
+                    rentalItems.add(ri);
+                }
+                if (currentRentalID > 0L) {
+                    rental.setRentalItems(rentalItems);
+                    list.add(rental);
+                }
 
+                currentRentalID = rs.getLong("ren.id");
+
+                currentBookID = rs.getLong("b.id");
+                rentalItems = new ArrayList<>();
+                authors = new ArrayList<>();
+                authors.add(a);
+                Administrator adminB = new Administrator(rs.getLong("admb.id"), rs.getString("admb.firstname"), rs.getString("admb.lastname"), rs.getString("admb.username"), rs.getString("admb.password"));
+                b = new Book(currentBookID, rs.getString("b.title"), rs.getInt("b.quantity"), rs.getInt("b.publication"), adminB, authors);
+                rental = new Rental(currentRentalID, admin, mem, rs.getInt("ren.rentalStatus"), rs.getTimestamp("ren.dateOfRental"), rs.getTimestamp("ren.dateOfReturn"), rentalItems);
+                ri = new RentalItem();
+                ri.setOrderNumber(rs.getInt("ri.orderNumber"));
+            }
+        }
+
+        if (currentBookID > 0L) {
+            b.setAuthors(authors);
+            ri.setBook(b);
+            rentalItems.add(ri);
+        }
+        if (currentRentalID > 0L) {
+            rental.setRentalItems(rentalItems);
             list.add(rental);
         }
+
         rs.close();
         return list;
     }
@@ -195,8 +253,8 @@ public class Rental extends AbstractDomainObject implements Serializable {
     @Override
     public String query() {
         if (member != null) {
-            return " WHERE m.id = " + member.getId();
+            return " WHERE m.id = " + member.getId() + " ORDER BY ren.id ";
         }
-        return "";
+        return " ORDER BY ren.id, b.id ";
     }
 }

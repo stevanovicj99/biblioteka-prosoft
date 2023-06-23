@@ -25,7 +25,6 @@ public class ServerController {
     ArrayList<Administrator> listOfPossibleAdministrators;
     ArrayList<Administrator> activeAdministrators = new ArrayList<>();
     ArrayList<Socket> listOfAdministrators = new ArrayList<>();
-    //HashMap<Socket, Administrator> lista = new HashMap<>();
 
     private ServerController() {
         try {
